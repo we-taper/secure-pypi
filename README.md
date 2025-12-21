@@ -23,7 +23,7 @@ Initiate a project with uv, add dependencies, with a lock file automatically gen
 
 ```bash
 uv init test_project --vcs none --python ">=3.9"
-cd test_project && uv add python-dotenv
+cd test_project && uv add python-dotenv roto
 uv export --format requirements-txt > requirements.txt
 ```
 
