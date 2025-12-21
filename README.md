@@ -22,13 +22,33 @@ Prepare a system with required tools. See details in the Dockerfile.
 Initiate a project with uv, add dependencies, with a lock file automatically generated. Note that vcs is skipped since it is managed outside the project.
 
 ```bash
-uv init test_project --vcs none --python ">=3.9"
+uv init test_project --vcs none --package --python ">=3.9"
+uv add --directory test_project python-dotenv roto
 cd test_project && uv add python-dotenv roto
-uv export --format requirements-txt > requirements.txt
+uv export  --no-dev --no-emit-project --format requirements-txt > requirements.txt
 ```
 
-Install and use Snyk to scan the dependencies in the lock file.
+Note:
+- If available, `uv` will use existing git repository information to populate the project metadata.
+- A package `roto` is added, as an example of a under-maintained package.
 
+*zipapp*
+Install dependencies in a target folder, then package the project with zipapp.
 ```bash
-todo
+PROJECT_DIR=test_project
+cd $PROJECT_DIR
+uv export  --no-dev --no-emit-project --format requirements-txt > requirements.txt
+uv pip install --target ./build/ -r requirements.txt
+mv build ../
+# copy contents under src/ to build/
+cp -R src/* ../build/
+cd ../build/
+uv run python -m zipapp . -o ../main.pyz -m "$PROJECT_DIR.__main__:main" -p "/usr/bin/env python3"
 ```
+
+*Snyk*
+Setup and use Snyk to scan the dependencies in the lock file.
+- Signup for Snyk and connect it to your GitHub account.
+- Upload this package as a public repository to GitHub.
+- In Snyk, import the GitHub repository. Snyk will automatically detect the generated requirements.txt file and scan for vulnerabilities.
+
