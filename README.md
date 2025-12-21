@@ -24,6 +24,7 @@ Initiate a project with uv, add dependencies, with a lock file automatically gen
 ```bash
 uv init test_project --vcs none --python ">=3.9"
 cd test_project && uv add python-dotenv
+uv export --format requirements-txt > requirements.txt
 ```
 
 Install and use Snyk to scan the dependencies in the lock file.
