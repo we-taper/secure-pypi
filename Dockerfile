@@ -1,4 +1,4 @@
-FROM python:3.13.7-slim-trixie
+FROM python:3.14.2-slim-trixie
 
 # Setup basic dependencies: curl for uv, and guarddog
 RUN apt-get update && apt-get install -y --no-install-recommends \
